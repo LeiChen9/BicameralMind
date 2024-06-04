@@ -1,4 +1,4 @@
- from modelscope import AutoModelForCausalLM, AutoTokenizer
+from modelscope import AutoModelForCausalLM, AutoTokenizer
   2 import torch
   3 import pdb
   4 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
