@@ -63,12 +63,13 @@ def model_chat(model, prompt, input_text):
     response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
     return response
 
-prompt = "你今天心情怎么样？"
-response = model_chat(exe_model, prompt)
+input_text = "你今天心情怎么样？"
+mentor_ideas = ""
+response = model_chat(exe_model, mentor_ideas, input_text)
 print("Chat said: ", response)
 history = {
     'role': "use", "content": prompt,
     'role': "executive model", "contenct": response}
-mentor_response = model_mentor(ins_model, str(history))
-print("Mentor thought: ,", mentor_response)
+mentor_ideas = model_mentor(ins_model, str(history))
+print("Mentor thought: ,", mentor_ideas)
 pdb.set_trace()
