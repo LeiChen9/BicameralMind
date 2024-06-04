@@ -42,7 +42,7 @@ def model_chat(model, prompt, input_text):
     messages = [
         {"role": "system", "content": "You are a helpful assistant. Based on the input text and key messages in your head about previous dialog, \
                                 you need to provide a response."},
-            {"role": "system", "content": "history theme, key words and key phrases are {}".format(prompt)}
+        {"role": "system", "content": "history theme, key words and key phrases are: " + prompt},
         {"role": "user", "content": input_text}
     ]
     text = tokenizer.apply_chat_template(
