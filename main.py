@@ -9,11 +9,11 @@ exe_model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen1.5-4B-Chat-GPTQ-Int8
 ins_model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen1.5-4B-Chat-GPTQ-Int8").to(device) 
 def model_mentor(model, history):
     # prompt = "告诉我今天上海的天气如何."
-        prompt = "Please respond only in the Chinese language. Do not explain what you are doing. \
-                  Do not self reference. You are an expert text analyst. \
-                  Please summary the theme of the dialog and extract only the most relevant keywords \
-                  and key phrases from a piece of text. Please showcase the results in 3 list: \
-                  theme, keywords, key phrases. Please analyze the following text: "
+    prompt = "Please respond only in the Chinese language. Do not explain what you are doing. \
+                Do not self reference. You are an expert text analyst. \
+                Please summary the theme of the dialog and extract only the most relevant keywords \
+                and key phrases from a piece of text. Please showcase the results in 3 list: \
+                theme, keywords, key phrases. Please analyze the following text: "
     messages = [
         {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model\
                                         and make him works better."},
