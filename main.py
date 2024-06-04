@@ -68,7 +68,7 @@ mentor_ideas = ""
 response = model_chat(exe_model, mentor_ideas, input_text)
 print("Chat said: ", response)
 history = {
-    'role': "use", "content": input_text,
+    'role': "user", "content": input_text,
     'role': "executive model", "contenct": response}
 mentor_ideas = model_mentor(ins_model, str(history))
 print("Mentor thought: ,", mentor_ideas)
