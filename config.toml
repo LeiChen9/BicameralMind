@@ -1,0 +1,12 @@
+[BASE_INFO]
+# The app name will be applied to all processes including agent service integration.
+appname = 'Bica'
+
+[CORE_PACKAGE]
+Dolores = ["agent_executor"]
+Ford = ["agent_mentor"]
+
+[SUB_CONFIG_PATH]
+# Log config file path, an absolute path or a relative path based on the dir where the current config file is located.
+log_config_path = './log_config.toml'
+custom_key_path = './custom_key.toml'
