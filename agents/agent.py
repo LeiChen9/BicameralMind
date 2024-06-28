@@ -11,6 +11,8 @@ Copyright (c) 2024 by ${chenlei9691@gmail.com}, All Rights Reserved.
 from agent_model import AgentModel
 from pydantic import BaseModel
 from abc import abstractmethod
+from typing import Optional
+from datetime import datetime
 from data_structures.io_object import IOObject
 
 class Agent(BaseModel):
@@ -72,7 +74,7 @@ class Agent(BaseModel):
         agent_result = self.parse_result(planner_result)
 
         self.output_check(agent_result)
-        output_object = OutputObject(agent_result)
+        output_object = IOObject(agent_result)
         return output_object
 
     def execute(self, input_object: IOObject, agent_input: dict) -> dict:
