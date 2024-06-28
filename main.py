@@ -1,75 +1,15 @@
-from modelscope import AutoModelForCausalLM, AutoTokenizer
-import torch
-import pdb
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
+'''
+Author: LeiChen9 chenlei9691@gmail.com
+Date: 2024-06-28 11:26:15
+LastEditors: LeiChen9 chenlei9691@gmail.com
+LastEditTime: 2024-06-28 13:41:16
+FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/main.py
+Description: 
 
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen1.5-4B-Chat-GPTQ-Int8")
-exe_model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen1.5-4B-Chat-GPTQ-Int8").to(device)
-ins_model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen1.5-4B-Chat-GPTQ-Int8").to(device) 
-def model_mentor(model, history):
-    # prompt = "告诉我今天上海的天气如何."
-    prompt = "Please respond only in the Chinese language. Do not explain what you are doing. \
-                Do not self reference. You are an expert text analyst. \
-                Please summary the theme of the dialog and extract only the most relevant keywords \
-                and key phrases from a piece of text. Please showcase the results in 3 list: \
-                theme, keywords, key phrases. Please analyze the following text: "
-    messages = [
-        {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model\
-                                        and make him works better."},
-        {"role": "user", "content": prompt + history}
-    ]
-    text = tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-    model_inputs = tokenizer([text], return_tensors="pt").to(device)
+Copyright (c) 2024 by Riceball, All Rights Reserved. 
+'''
+from agents.agent_manager import AgentManager
+from agents.agent import Agent 
 
-    generated_ids = model.bfloat16().generate(
-        model_inputs.input_ids,
-        max_new_tokens=512
-    )
-    generated_ids = [
-        output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-    ]
-
-    response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    return response
-
-def model_chat(model, prompt, input_text):
-    # prompt = "告诉我今天上海的天气如何."
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant. Based on the input text and key messages in your head about previous dialog, \
-                                you need to provide a response."},
-        {"role": "system", "content": "history theme, key words and key phrases are: " + prompt},
-        {"role": "user", "content": input_text}
-    ]
-    text = tokenizer.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True
-    )
-    model_inputs = tokenizer([text], return_tensors="pt").to(device)
-
-    generated_ids = model.bfloat16().generate(
-        model_inputs.input_ids,
-        max_new_tokens=512
-    )
-    generated_ids = [
-        output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-    ]
-
-    response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    return response
-
-input_text = "你今天心情怎么样？"
-mentor_ideas = ""
-response = model_chat(exe_model, mentor_ideas, input_text)
-print("Chat said: ", response)
-history = {
-    'role': "user", "content": input_text,
-    'role': "executive model", "contenct": response}
-mentor_ideas = model_mentor(ins_model, str(history))
-print("Mentor thought: ,", mentor_ideas)
-pdb.set_trace()
+if __name__ == '__main__':
+    pass

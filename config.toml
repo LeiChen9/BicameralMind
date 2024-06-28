@@ -2,7 +2,7 @@
 # The app name will be applied to all processes including agent service integration.
 appname = 'Bica'
 
-[CORE_PACKAGE]
+[AGENTS]
 Dolores = ["agent_executor"]
 Ford = ["agent_mentor"]
 

@@ -1,12 +1,12 @@
 '''
 Author: LeiChen9 chenlei9691@gmail.com
-Date: 2024-06-27 22:05:41
+Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 08:12:56
-FilePath: /Code/BicameralMind/agents/agent.py
+LastEditTime: 2024-06-28 13:42:15
+FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent.py
 Description: 
 
-Copyright (c) 2024 by ${chenlei9691@gmail.com}, All Rights Reserved. 
+Copyright (c) 2024 by Riceball, All Rights Reserved. 
 '''
 from agent_model import AgentModel
 from pydantic import BaseModel
