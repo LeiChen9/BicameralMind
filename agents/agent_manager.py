@@ -13,7 +13,6 @@ Copyright (c) 2024 by ${chenlei9691@gmail.com}, All Rights Reserved.
 from utils import singleton
 from agent import Agent
 
-
 @singleton
 class AgentManager():
     """The AgentManager class, which is used to manage the agents."""
