@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 14:15:41
+LastEditTime: 2024-06-28 14:26:52
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -33,6 +33,8 @@ class AgentManager(object):
         else:
             raise ValueError("Config format not supported, please use toml or yaml")
         self.config_data = config_data
+        for agents in config_data['AGENTS']:
+            name, type_ = agents.items()
     
     def register(self, agent_name: str, agent_obj: Agent):
         """Register the agent instance."""
