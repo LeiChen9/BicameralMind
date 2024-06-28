@@ -26,12 +26,12 @@ class Agent(BaseModel):
         self.name = name
 
     @abstractmethod
-    def input_keys(self) -> list[str]:
+    def input_keys(self) -> list:
         """Return the input keys of the Agent."""
         pass
 
     @abstractmethod
-    def output_keys(self) -> list[str]:
+    def output_keys(self) -> list:
         """Return the output keys of the Agent."""
         pass
 

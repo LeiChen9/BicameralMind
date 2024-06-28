@@ -18,7 +18,7 @@ class AgentManager():
     """The AgentManager class, which is used to manage the agents."""
 
     def __init__(self):
-        """Initialize the Agent manager."""
+        """Initialize the Agent manager.""" 
         self._agent_obj_map: dict[str, Agent] = {}
     
     def register(self, agent_name: str, agent_obj: Agent):
@@ -40,10 +40,10 @@ class AgentManager():
             raise Exception(f"Agent {agent_name} not found.")
         return self._agent_obj_map[agent_name]
 
-    def get_agent_name_list(self) -> list[str]:
+    def get_agent_name_list(self) -> list:
         """Return the agent instance list."""
         return list(self._agent_obj_map.keys())
 
-    def get_agent_obj_list(self) -> list[Agent]:
+    def get_agent_obj_list(self) -> list:
         """Return the agent instance object list."""
         return list(self._agent_obj_map.values())
