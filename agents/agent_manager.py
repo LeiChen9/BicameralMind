@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 14:26:52
+LastEditTime: 2024-06-28 15:02:48
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -12,7 +12,9 @@ Copyright (c) 2024 by Riceball, All Rights Reserved.
 """Agents manager."""
 from utils.singleton import singleton
 from .agent import Agent
+from .agent_enum import AgentEnum
 import tomli, yaml
+import pdb 
 
 @singleton
 class AgentManager(object):
@@ -33,14 +35,16 @@ class AgentManager(object):
         else:
             raise ValueError("Config format not supported, please use toml or yaml")
         self.config_data = config_data
-        for agents in config_data['AGENTS']:
-            name, type_ = agents.items()
+        for agent_name, agent_type in config_data['AGENTS'].items():
+            assert agent_type in AgentEnum.get_list()
+            self.register(agent_name, agent_type)
+        return
     
-    def register(self, agent_name: str, agent_obj: Agent):
+    def register(self, agent_name: str, agent_type: str):
         """Register the agent instance."""
         if agent_name in self._agent_obj_map:
             return
-        self._agent_obj_map[agent_name] = agent_obj
+        self._agent_obj_map[agent_name] = Agent(role=agent_type)
 
     def unregister(self, agent_name: str):
         """Unregister the agent instance."""

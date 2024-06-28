@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 14:05:48
+LastEditTime: 2024-06-28 15:03:26
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -20,10 +20,11 @@ class Agent(BaseModel):
 
     agent_model: Optional[AgentModel] = None
 
-    def __init__(self, name: str = 'default', **kwargs):
+    def __init__(self, name: str = 'default', role: str = 'EXECUTOR', **kwargs):
         """Initialize the AgentModel with the given keyword arguments."""
         super().__init__()
         self.name = name
+        self.role = role
 
     @abstractmethod
     def input_keys(self) -> list:
