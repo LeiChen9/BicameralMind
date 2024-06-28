@@ -109,13 +109,6 @@ class Agent(BaseModel):
         self.parse_input(input_object, agent_input)
         return agent_input
 
-    def get_instance_code(self) -> str:
-        """Return the full name of the agent."""
-        appname = ApplicationConfigManager().app_configer.base_info_appname
-        name = self.agent_model.info.get('name')
-        return (f'{appname}.'
-                f'{self.component_type.value.lower()}.{name}')
-
     def input_check(self, kwargs: dict):
         """Agent parameter check."""
         for key in self.input_keys():
@@ -129,22 +122,3 @@ class Agent(BaseModel):
         for key in self.output_keys():
             if key not in kwargs.keys():
                 raise Exception(f'Output must have key: {key}.')
-
-    def initialize_by_component_configer(self, component_configer: AgentConfiger) -> 'Agent':
-        """Initialize the LLM by the ComponentConfiger object.
-
-        Args:
-            component_configer(LLMConfiger): the ComponentConfiger object
-        Returns:
-            LLM: the LLM object
-        """
-        agent_config: Optional[AgentConfiger] = component_configer.load()
-        info: Optional[dict] = agent_config.info
-        profile: Optional[dict] = agent_config.profile
-        plan: Optional[dict] = agent_config.plan
-        memory: Optional[dict] = agent_config.memory
-        action: Optional[dict] = agent_config.action
-        agent_model: Optional[AgentModel] = AgentModel(info=info, profile=profile,
-                                                       plan=plan, memory=memory, action=action)
-        self.agent_model = agent_model
-        return self
