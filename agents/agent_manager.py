@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 13:41:31
+LastEditTime: 2024-06-28 14:01:32
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -12,14 +12,27 @@ Copyright (c) 2024 by Riceball, All Rights Reserved.
 """Agents manager."""
 from utils import singleton
 from agent import Agent
+import tomli, yaml
 
 @singleton
 class AgentManager():
     """The AgentManager class, which is used to manage the agents."""
 
-    def __init__(self):
+    def __init__(self, config_path):
         """Initialize the Agent manager.""" 
         self._agent_obj_map: dict[str, Agent] = {}
+        self.initialize(config_path=config_path)
+    
+    def initialize(self, config_path):
+        if config_path.split(".")[-1] == 'toml':
+            with open(config_path, 'rb') as f:
+                config_data = tomli.load(f)
+        elif config_path.split(".")[-1] == 'yaml':
+            with open(config_path, 'r', encoding='utf-8') as stream:
+                config_data = yaml.safe_load(stream)
+        else:
+            raise ValueError("Config format not supported, please use toml or yaml")
+        self.config_data = config_data
     
     def register(self, agent_name: str, agent_obj: Agent):
         """Register the agent instance."""
