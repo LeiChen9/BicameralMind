@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 14:01:32
+LastEditTime: 2024-06-28 14:15:41
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -10,12 +10,12 @@ Copyright (c) 2024 by Riceball, All Rights Reserved.
 '''
 
 """Agents manager."""
-from utils import singleton
-from agent import Agent
+from utils.singleton import singleton
+from .agent import Agent
 import tomli, yaml
 
 @singleton
-class AgentManager():
+class AgentManager(object):
     """The AgentManager class, which is used to manage the agents."""
 
     def __init__(self, config_path):
