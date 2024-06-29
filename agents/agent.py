@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 17:48:22
+LastEditTime: 2024-06-29 17:55:13
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -19,11 +19,11 @@ class Agent(BaseModel):
     """The parent class of all agent models, containing only attributes."""
 
     agent_model: Optional[AgentModel] = None
+    role: Optional[str] = None
 
-    def __init__(self, name: str = 'default', role: str = 'EXECUTOR', **kwargs):
+    def __init__(self, role: str = 'EXECUTOR', **kwargs):
         """Initialize the AgentModel with the given keyword arguments."""
         super().__init__()
-        self.name = name
         self.role = role
 
     def input_keys(self) -> list:

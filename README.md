@@ -17,4 +17,5 @@
 - 实现单例模式annotation ✅
 
 ## Design
-agent应该是 name - role - obj 的格式
+agent自身的属性应该是role，obj。role是自身的核心属性，决定接下来的行为。<br>
+manager 通过 name来识别和使用agent，所以name应该是manager要维护的。
