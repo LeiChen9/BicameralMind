@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 17:55:13
+LastEditTime: 2024-06-29 19:50:53
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -61,18 +61,39 @@ class Agent(BaseModel):
         Returns:
             OutputObject: Agent execution result
         """
-        self.input_check(kwargs)
-        input_object = IOObject(kwargs)
+        if self.role == "EXECUTOR":
+            messages = [
+            {"role": "system", "content": "You are a helpful assistant. Based on the input text and key messages in your head about previous dialog, \
+                                    you need to provide a response."},
+            {"role": "system", "content": "history theme, key words and key phrases are: " + mentor_ideas},
+            {"role": "user", "content": input_text}
+            ]
+        elif self.role == 'MENTOR':
+            prompt = "Please respond only in the Chinese language. Do not explain what you are doing. \
+                    Do not self reference. You are an expert text analyst. \
+                    Please summary the theme of the dialog and extract only the most relevant keywords \
+                    and key phrases from a piece of text. Please showcase the results in 3 list: \
+                    theme, keywords, key phrases. Please analyze the following text: "
+            messages = [
+                {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model\
+                                                and make him works better."},
+                {"role": "user", "content": prompt + history}
+            ]
 
-        agent_input = self.pre_parse_input(input_object)
-
-        agent_dictum = self.get_dictum(input_object, agent_input)
-
-        agent_result = self.parse_result(agent_dictum)
-
-        self.output_check(agent_result)
-        output_object = IOObject(agent_result)
-        return output_object
+        response = dashscope.Generation.call(
+            dashscope.Generation.Models.qwen_turbo,
+            messages=messages,
+            result_format='message',  # 将返回结果格式设置为 message
+        )
+        result = copy.deepcopy(response)
+        if response.status_code == HTTPStatus.OK:
+            print(response)
+        else:
+            print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
+                response.request_id, response.status_code,
+                response.code, response.message
+            ))
+        return result["output"]["choices"][0]["message"]["content"]
 
     def get_dictum(self, mentor_input: dict) -> dict:
         """Execute agent instance.
