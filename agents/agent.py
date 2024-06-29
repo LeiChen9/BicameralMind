@@ -2,8 +2,8 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 15:03:26
-FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent.py
+LastEditTime: 2024-06-29 17:48:22
+FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
 Copyright (c) 2024 by Riceball, All Rights Reserved. 
@@ -26,17 +26,14 @@ class Agent(BaseModel):
         self.name = name
         self.role = role
 
-    @abstractmethod
     def input_keys(self) -> list:
         """Return the input keys of the Agent."""
         pass
 
-    @abstractmethod
     def output_keys(self) -> list:
         """Return the output keys of the Agent."""
         pass
 
-    @abstractmethod
     def parse_input(self, input_object: IOObject, agent_input: dict) -> dict:
         """Agent parameter parsing.
 
@@ -48,7 +45,6 @@ class Agent(BaseModel):
         """
         pass
 
-    @abstractmethod
     def parse_result(self, planner_result: dict) -> dict:
         """Planner result parser.
 
