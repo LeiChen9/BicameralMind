@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 19:57:53
+LastEditTime: 2024-06-29 20:05:32
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from abc import abstractmethod
 from typing import Optional
 from datetime import datetime
+import dashscope
 from data_structures.io_object import IOObject
 
 class Agent(BaseModel):
@@ -57,7 +58,7 @@ class Agent(BaseModel):
         """
         pass
 
-    def run(self, **kwargs) -> IOObject:
+    def run(self, input_text="", mentor_ideas="", history=""):
         """Agent instance running entry.
 
         Returns:

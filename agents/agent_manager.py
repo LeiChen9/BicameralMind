@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 19:56:31
+LastEditTime: 2024-06-29 20:02:15
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -38,6 +38,8 @@ class AgentManager(object):
         for agent_type, agent_name in config_data['AGENTS'].items():
             assert agent_type in AgentEnum.get_list()
             self.register(agent_name, agent_type)
+        self.executor = self._agent_obj_map['EXECUTOR']
+        self.mentor = self._agent_obj_map['MENTOR']
         return
     
     def register(self, agent_name: str, agent_type: str):
