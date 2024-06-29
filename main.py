@@ -2,8 +2,8 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 14:01:42
-FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/main.py
+LastEditTime: 2024-06-29 19:53:38
+FilePath: /Code/BicameralMind/main.py
 Description: 
 
 Copyright (c) 2024 by Riceball, All Rights Reserved. 
@@ -14,4 +14,12 @@ import pdb
 
 if __name__ == '__main__':
     manager: AgentManager = AgentManager(config_path='./config.toml')
-    pdb.set_trace()
+    input_text = "给我介绍一下GLy-P1这款药物"
+    mentor_ideas = ""
+    response = call_with_messages(role="chatbot", input_text=input_text)
+    print("Chat said: ", response)
+    history = {
+        'role': "user", "content": input_text,
+        'role': "executive model", "contenct": response}
+    mentor_ideas = call_with_messages(role="mentor", history=str(history))
+    print("Mentor thought: ,", mentor_ideas)
