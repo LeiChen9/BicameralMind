@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 19:50:53
+LastEditTime: 2024-06-29 19:57:53
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -20,11 +20,13 @@ class Agent(BaseModel):
 
     agent_model: Optional[AgentModel] = None
     role: Optional[str] = None
+    name: Optional[str] = None
 
-    def __init__(self, role: str = 'EXECUTOR', **kwargs):
+    def __init__(self, role: str = 'EXECUTOR', name: Optional[str] = None, **kwargs):
         """Initialize the AgentModel with the given keyword arguments."""
         super().__init__()
         self.role = role
+        self.name = name
 
     def input_keys(self) -> list:
         """Return the input keys of the Agent."""

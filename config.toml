@@ -3,8 +3,8 @@
 appname = 'Bica'
 
 [AGENTS]
-Dolores = "EXECUTOR"
-Ford = "MENTOR"
+EXECUTOR = "Dolores"
+MENTOR = "Ford"
 
 [SUB_CONFIG_PATH]
 # Log config file path, an absolute path or a relative path based on the dir where the current config file is located.

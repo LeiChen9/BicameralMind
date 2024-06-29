@@ -2,8 +2,8 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-28 15:02:48
-FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
+LastEditTime: 2024-06-29 19:56:31
+FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
 Copyright (c) 2024 by Riceball, All Rights Reserved. 
@@ -35,16 +35,16 @@ class AgentManager(object):
         else:
             raise ValueError("Config format not supported, please use toml or yaml")
         self.config_data = config_data
-        for agent_name, agent_type in config_data['AGENTS'].items():
+        for agent_type, agent_name in config_data['AGENTS'].items():
             assert agent_type in AgentEnum.get_list()
             self.register(agent_name, agent_type)
         return
     
     def register(self, agent_name: str, agent_type: str):
         """Register the agent instance."""
-        if agent_name in self._agent_obj_map:
+        if agent_name in self._agent_obj_map.values():
             return
-        self._agent_obj_map[agent_name] = Agent(role=agent_type)
+        self._agent_obj_map[agent_type] = Agent(role=agent_type, name=agent_name)
 
     def unregister(self, agent_name: str):
         """Unregister the agent instance."""
