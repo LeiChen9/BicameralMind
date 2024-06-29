@@ -4,6 +4,7 @@
 
 ## Work
 ### TODO
+- api设置报错
 - debug
 - 增加单元测试，在每个function实现后增加测试功能
 ### 6.28
