@@ -2,14 +2,15 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-29 20:11:12
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 14:23:13
+LastEditTime: 2024-06-30 15:27:50
 FilePath: /Code/BicameralMind/utils/tools.py
 Description: 
 
 Copyright (c) 2024 by ${chenlei9691@gmail.com}, All Rights Reserved. 
 '''
 import tomli, yaml
-from gensim import corpora, models, similarities
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 def config_parse(config_path):
     if config_path.split(".")[-1] == 'toml':
         with open(config_path, 'rb') as f:
@@ -21,17 +22,14 @@ def config_parse(config_path):
         raise ValueError("Config format not supported, please use toml or yaml")
     return config_data
 
-def calculate_similarity(self, text1, text2):
-    """Calculate the cosine similarity between two texts."""
-    # 创建字典和语料库
-    dictionary = corpora.Dictionary([text1, text2])
-    corpus = [dictionary.doc2bow(text) for text in [text1, text2]]
-    # 创建TF-IDF模型
-    tfidf = models.TfidfModel(corpus)
-    # 转换语料库为TF-IDF表示
-    corpus_tfidf = tfidf[corpus]
-    # 创建相似度矩阵
-    index = similarities.MatrixSimilarity(corpus_tfidf)
-    # 计算相似度
-    similarity = index[corpus_tfidf[0]][1]
-    return similarity
+def calculate_cosine_similarity(text1, text2):
+    # 创建TF-IDF向量化器
+    vectorizer = TfidfVectorizer()
+    
+    # 将文本转换为TF-IDF向量
+    tfidf_matrix = vectorizer.fit_transform([text1, text2])
+    
+    # 计算余弦相似度
+    cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+    
+    return cosine_sim[0][0]

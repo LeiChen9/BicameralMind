@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 14:24:56
+LastEditTime: 2024-06-30 15:35:37
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -11,7 +11,7 @@ Copyright (c) 2024 by Riceball, All Rights Reserved.
 
 """Agents manager."""
 from utils.singleton import singleton
-from utils.tools import config_parse, calculate_similarity
+from utils.tools import config_parse, calculate_cosine_similarity
 from .agent import Agent
 from .agent_enum import AgentEnum
 import os
@@ -26,7 +26,7 @@ class AgentManager(object):
         self._agent_obj_map: dict[str, Agent] = {}
         self.initialize(config_path=config_path)
         self.previous_executor_response = ""
-        self.sim_threshold = 0.5
+        self.sim_threshold = 0.3
     
     def initialize(self, config_path):
         self.config_data = config_parse(config_path)
@@ -40,9 +40,10 @@ class AgentManager(object):
         self.mentor = self._agent_obj_map['MENTOR']
         return
 
-    def run(self, input_text="", max_interations=3):
+    def run(self, input_text="", max_iterations=3):
         """Manage multi-turn interaction between executor and mentor."""
         history = ""  # 用于存储对话历史
+        previous_executor_response = ""
         for _ in range(max_iterations):
             # Executor生成回答
             executor_response = self.executor.run(input_text, mentor_ideas="", history=history)
@@ -58,10 +59,10 @@ class AgentManager(object):
             history += f"Executor: {executor_response}\nMentor: {mentor_response}\n"
 
             # 检查是否满足终止条件
-            if self.is_answer_sufficient(mentor_response):
+            if self.is_answer_sufficient(executor_response, previous_executor_response):
                 break
             # 更新previous_executor_response
-            self.previous_executor_response = executor_response
+            previous_executor_response = executor_response
 
             # 准备下一轮的input_text
             input_text = mentor_response
@@ -71,9 +72,9 @@ class AgentManager(object):
     def is_answer_sufficient(self, current_response, previous_response):
         # 这里可以添加逻辑来判断mentor是否认为回答已经足够好
         # 例如，检查mentor_response中是否包含某些关键词或短语
-        similarity = calculate_similarity(current_response, previous_response)
+        similarity = calculate_cosine_similarity(current_response, previous_response)
         # 如果相似度小于阈值，则认为回答已经足够好
-        return similarity < self.threshold
+        return similarity < self.sim_threshold
     
     def register(self, agent_name: str, agent_type: str, api_info=None):
         """Register the agent instance."""
