@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 15:38:36
+LastEditTime: 2024-06-30 15:45:05
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -47,10 +47,11 @@ class AgentManager(object):
         """Manage multi-turn interaction between executor and mentor."""
         history = ""  # 用于存储对话历史
         previous_executor_response = ""
+        mentor_response = ""
         for _ in range(max_iterations):
             logging.info(f"Starting iteration {_ + 1}")
             # Executor生成回答
-            executor_response = self.executor.run(input_text, mentor_ideas="", history=history)
+            executor_response = self.executor.run(input_text, mentor_dictum=mentor_response)
             if executor_response is None:
                 logging.error("Executor failed to generate a response.")
                 return None  # 如果发生错误，则终止交互
@@ -58,7 +59,8 @@ class AgentManager(object):
             logging.info(f"Executor: {executor_response}")
 
             # Mentor评估executor的回答
-            mentor_response = self.mentor.run(input_text=executor_response, history=history)
+            history = f"User : {input_text}\nExecutor: {executor_response}"
+            mentor_response = self.mentor.run(history=history)
             if mentor_response is None:
                 logging.error("Mentor failed to generate a response.")
                 return None  # 如果发生错误，则终止交互

@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 14:15:25
+LastEditTime: 2024-06-30 15:44:08
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -67,14 +67,14 @@ class Agent(BaseModel):
         """
         pass
 
-    def run(self, input_text="", mentor_ideas="", history=""):
+    def run(self, input_text="", mentor_dictum="", history=""):
         """Agent instance running entry.
 
         Returns:
             OutputObject: Agent execution result
         """
         if self.role == "EXECUTOR":
-            messages = self.build_executor_messages(input_text, mentor_ideas, history)
+            messages = self.build_executor_messages(input_text, mentor_dictum)
         elif self.role == 'MENTOR':
             messages = self.build_mentor_messages(history)
 
@@ -94,10 +94,10 @@ class Agent(BaseModel):
             ))
             return None
 
-    def build_executor_messages(self, input_text, mentor_ideas, history):
+    def build_executor_messages(self, input_text, mentor_dictum):
         return [
             {"role": "system", "content": "You are a helpful assistant. Based on the input text from user, and key messages in your head about previous dialog, and evaluation of your answer from your mentor, you need to provide a response."},
-            {"role": "system", "content": "history theme, key words, key phrases and evaluation are: " + mentor_ideas},
+            {"role": "system", "content": "history theme, key words, key phrases and evaluation are: " + mentor_dictum},
             {"role": "user", "content": input_text}
         ]
     
