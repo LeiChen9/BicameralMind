@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 15:45:05
+LastEditTime: 2024-06-30 16:16:39
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -29,7 +29,7 @@ class AgentManager(object):
         self._agent_obj_map: dict[str, Agent] = {}
         self.initialize(config_path=config_path)
         self.previous_executor_response = ""
-        self.sim_threshold = 0.3
+        self.sim_threshold = 0.8
     
     def initialize(self, config_path):
         self.config_data = config_parse(config_path)
@@ -77,8 +77,8 @@ class AgentManager(object):
             # 更新previous_executor_response
             previous_executor_response = executor_response
 
-            # 准备下一轮的input_text
-            input_text = mentor_response
+            # # 准备下一轮的input_text
+            # input_text = mentor_response
 
         return executor_response
 
@@ -87,7 +87,7 @@ class AgentManager(object):
         # 例如，检查mentor_response中是否包含某些关键词或短语
         similarity = calculate_cosine_similarity(current_response, previous_response)
         # 如果相似度小于阈值，则认为回答已经足够好
-        return similarity < self.sim_threshold
+        return similarity > self.sim_threshold
     
     def register(self, agent_name: str, agent_type: str, api_info=None):
         """Register the agent instance."""
