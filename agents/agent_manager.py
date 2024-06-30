@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 15:35:37
+LastEditTime: 2024-06-30 15:38:36
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -14,8 +14,11 @@ from utils.singleton import singleton
 from utils.tools import config_parse, calculate_cosine_similarity
 from .agent import Agent
 from .agent_enum import AgentEnum
+import logging
 import os
 import pdb 
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 @singleton
 class AgentManager(object):
@@ -45,21 +48,29 @@ class AgentManager(object):
         history = ""  # 用于存储对话历史
         previous_executor_response = ""
         for _ in range(max_iterations):
+            logging.info(f"Starting iteration {_ + 1}")
             # Executor生成回答
             executor_response = self.executor.run(input_text, mentor_ideas="", history=history)
             if executor_response is None:
+                logging.error("Executor failed to generate a response.")
                 return None  # 如果发生错误，则终止交互
+
+            logging.info(f"Executor: {executor_response}")
 
             # Mentor评估executor的回答
             mentor_response = self.mentor.run(input_text=executor_response, history=history)
             if mentor_response is None:
+                logging.error("Mentor failed to generate a response.")
                 return None  # 如果发生错误，则终止交互
+            
+            logging.info(f"Mentor: {mentor_response}")
 
             # 更新对话历史
             history += f"Executor: {executor_response}\nMentor: {mentor_response}\n"
 
             # 检查是否满足终止条件
             if self.is_answer_sufficient(executor_response, previous_executor_response):
+                logging.info("Answer is sufficiently similar to the previous response. Convergence achieved.")
                 break
             # 更新previous_executor_response
             previous_executor_response = executor_response
