@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 16:16:39
+LastEditTime: 2024-06-30 17:15:30
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -14,11 +14,11 @@ from utils.singleton import singleton
 from utils.tools import config_parse, calculate_cosine_similarity
 from .agent import Agent
 from .agent_enum import AgentEnum
+import logging.config
 import logging
+from loguru import logger
 import os
 import pdb 
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 @singleton
 class AgentManager(object):
@@ -33,6 +33,8 @@ class AgentManager(object):
     
     def initialize(self, config_path):
         self.config_data = config_parse(config_path)
+        self.setup_logging(self.config_data['SUB_CONFIG_PATH']['log_config_path'])
+        
         if 'custom_key_path' in self.config_data['SUB_CONFIG_PATH']:
             custom_key_path = self.config_data['SUB_CONFIG_PATH']['custom_key_path']
             api_info = config_parse(custom_key_path).popitem()
@@ -42,37 +44,56 @@ class AgentManager(object):
         self.executor = self._agent_obj_map['EXECUTOR']
         self.mentor = self._agent_obj_map['MENTOR']
         return
+    
+    def setup_logging(self, log_config_path):
+        log_config = config_parse(log_config_path)
+        log_level = log_config['LOG_CONFIG']['BASIC_CONFIG']['log_level']
+        log_path = log_config['LOG_CONFIG']['BASIC_CONFIG']['log_path']
+        log_rotation = log_config['LOG_CONFIG']['BASIC_CONFIG']['log_rotation']
+        log_retention = log_config['LOG_CONFIG']['BASIC_CONFIG']['log_retention']
+        
+        if not log_path:
+            log_path = "./.test_log_dir/agent_manager.log"
+
+        logger.add(
+            log_path,
+            level=log_level,
+            rotation=log_rotation,
+            retention=log_retention,
+            format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
+        )
 
     def run(self, input_text="", max_iterations=3):
         """Manage multi-turn interaction between executor and mentor."""
         history = ""  # 用于存储对话历史
         previous_executor_response = ""
         mentor_response = ""
+        
         for _ in range(max_iterations):
-            logging.info(f"Starting iteration {_ + 1}")
+            logger.info(f"Starting iteration {_ + 1}")
             # Executor生成回答
             executor_response = self.executor.run(input_text, mentor_dictum=mentor_response)
             if executor_response is None:
-                logging.error("Executor failed to generate a response.")
+                logger.error("Executor failed to generate a response.")
                 return None  # 如果发生错误，则终止交互
 
-            logging.info(f"Executor: {executor_response}")
+            logger.info(f"Executor: {executor_response}")
 
             # Mentor评估executor的回答
             history = f"User : {input_text}\nExecutor: {executor_response}"
             mentor_response = self.mentor.run(history=history)
             if mentor_response is None:
-                logging.error("Mentor failed to generate a response.")
+                logger.error("Mentor failed to generate a response.")
                 return None  # 如果发生错误，则终止交互
             
-            logging.info(f"Mentor: {mentor_response}")
+            logger.info(f"Mentor: {mentor_response}")
 
             # 更新对话历史
             history += f"Executor: {executor_response}\nMentor: {mentor_response}\n"
 
             # 检查是否满足终止条件
             if self.is_answer_sufficient(executor_response, previous_executor_response):
-                logging.info("Answer is sufficiently similar to the previous response. Convergence achieved.")
+                logger.info("Answer is sufficiently similar to the previous response. Convergence achieved.")
                 break
             # 更新previous_executor_response
             previous_executor_response = executor_response
