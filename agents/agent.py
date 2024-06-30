@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 13:43:49
+LastEditTime: 2024-06-30 13:51:52
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -75,17 +75,19 @@ class Agent(BaseModel):
         """
         if self.role == "EXECUTOR":
             messages = [
-            {"role": "system", "content": "You are a helpful assistant. Based on the input text and key messages in your head about previous dialog, \
-                                    you need to provide a response."},
-            {"role": "system", "content": "history theme, key words and key phrases are: " + mentor_ideas},
+            {"role": "system", "content": "You are a helpful assistant. Based on the input text from user, and key messages in your head about previous dialog, \
+                                            and evaluation of your answer from your mentor, \
+                                            you need to provide a response."},
+            {"role": "system", "content": "history theme, key words, key phrases and evaluation are: " + mentor_ideas},
             {"role": "user", "content": input_text}
             ]
         elif self.role == 'MENTOR':
             prompt = "Please respond only in the Chinese language. Do not explain what you are doing. \
-                    Do not self reference. You are an expert text analyst. \
+                    Do not self reference. You are an expert text analyst and mentor. \
                     Please summary the theme of the dialog and extract only the most relevant keywords \
-                    and key phrases from a piece of text. Please showcase the results in 3 list: \
-                    theme, keywords, key phrases. Please analyze the following text: "
+                    and key phrases from a piece of text, and evaluate how good or bad the dialog is, \
+                    is there anything need to be improved. Please showcase the results in 4 list: \
+                    theme, keywords, key phrases, evaluation. Please analyze the following text: "
             messages = [
                 {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model\
                                                 and make him works better."},
