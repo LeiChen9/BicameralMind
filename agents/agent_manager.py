@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 20:21:42
+LastEditTime: 2024-06-30 13:33:19
 FilePath: /Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -30,20 +30,19 @@ class AgentManager(object):
         self.config_data = config_parse(config_path)
         if 'custom_key_path' in self.config_data['SUB_CONFIG_PATH']:
             custom_key_path = self.config_data['SUB_CONFIG_PATH']['custom_key_path']
-            key, value = config_parse(custom_key_path).popitem()
-            os.environ[key] = value
+            api_info = config_parse(custom_key_path).popitem()
         for agent_type, agent_name in self.config_data['AGENTS'].items():
             assert agent_type in AgentEnum.get_list()
-            self.register(agent_name, agent_type)
+            self.register(agent_name, agent_type, api_info=api_info)
         self.executor = self._agent_obj_map['EXECUTOR']
         self.mentor = self._agent_obj_map['MENTOR']
         return
     
-    def register(self, agent_name: str, agent_type: str):
+    def register(self, agent_name: str, agent_type: str, api_info=None):
         """Register the agent instance."""
         if agent_name in self._agent_obj_map.values():
             return
-        self._agent_obj_map[agent_type] = Agent(role=agent_type, name=agent_name)
+        self._agent_obj_map[agent_type] = Agent(role=agent_type, name=agent_name, api_info=api_info)
 
     def unregister(self, agent_name: str):
         """Unregister the agent instance."""

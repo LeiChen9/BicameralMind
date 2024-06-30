@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-29 20:05:32
+LastEditTime: 2024-06-30 13:43:49
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -14,7 +14,10 @@ from abc import abstractmethod
 from typing import Optional
 from datetime import datetime
 import dashscope
+import os, copy
+from http import HTTPStatus
 from data_structures.io_object import IOObject
+import pdb 
 
 class Agent(BaseModel):
     """The parent class of all agent models, containing only attributes."""
@@ -22,12 +25,18 @@ class Agent(BaseModel):
     agent_model: Optional[AgentModel] = None
     role: Optional[str] = None
     name: Optional[str] = None
+    api_info: Optional[str] = None
 
-    def __init__(self, role: str = 'EXECUTOR', name: Optional[str] = None, **kwargs):
+    def __init__(self, role: str = 'EXECUTOR', name: Optional[str] = None, api_info=None, **kwargs):
         """Initialize the AgentModel with the given keyword arguments."""
         super().__init__()
         self.role = role
         self.name = name
+        self.api_configure(api_info)
+    
+    def api_configure(self, api_info):
+        key, value = api_info
+        os.environ[key] = value
 
     def input_keys(self) -> list:
         """Return the input keys of the Agent."""
@@ -82,7 +91,7 @@ class Agent(BaseModel):
                                                 and make him works better."},
                 {"role": "user", "content": prompt + history}
             ]
-
+        dashscope.api_key = os.getenv('DASHSCOPE_API_KEY')
         response = dashscope.Generation.call(
             dashscope.Generation.Models.qwen_turbo,
             messages=messages,
