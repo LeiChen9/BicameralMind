@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 13:51:52
+LastEditTime: 2024-06-30 14:15:25
 FilePath: /Code/BicameralMind/agents/agent.py
 Description: 
 
@@ -74,40 +74,39 @@ class Agent(BaseModel):
             OutputObject: Agent execution result
         """
         if self.role == "EXECUTOR":
-            messages = [
-            {"role": "system", "content": "You are a helpful assistant. Based on the input text from user, and key messages in your head about previous dialog, \
-                                            and evaluation of your answer from your mentor, \
-                                            you need to provide a response."},
-            {"role": "system", "content": "history theme, key words, key phrases and evaluation are: " + mentor_ideas},
-            {"role": "user", "content": input_text}
-            ]
+            messages = self.build_executor_messages(input_text, mentor_ideas, history)
         elif self.role == 'MENTOR':
-            prompt = "Please respond only in the Chinese language. Do not explain what you are doing. \
-                    Do not self reference. You are an expert text analyst and mentor. \
-                    Please summary the theme of the dialog and extract only the most relevant keywords \
-                    and key phrases from a piece of text, and evaluate how good or bad the dialog is, \
-                    is there anything need to be improved. Please showcase the results in 4 list: \
-                    theme, keywords, key phrases, evaluation. Please analyze the following text: "
-            messages = [
-                {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model\
-                                                and make him works better."},
-                {"role": "user", "content": prompt + history}
-            ]
-        dashscope.api_key = os.getenv('DASHSCOPE_API_KEY')
+            messages = self.build_mentor_messages(history)
+
         response = dashscope.Generation.call(
             dashscope.Generation.Models.qwen_turbo,
             messages=messages,
             result_format='message',  # 将返回结果格式设置为 message
+            api_key=os.getenv('DASHSCOPE_API_KEY')
         )
-        result = copy.deepcopy(response)
+        
         if response.status_code == HTTPStatus.OK:
-            print(response)
+            return response["output"]["choices"][0]["message"]["content"]
         else:
             print('Request id: %s, Status code: %s, error code: %s, error message: %s' % (
                 response.request_id, response.status_code,
                 response.code, response.message
             ))
-        return result["output"]["choices"][0]["message"]["content"]
+            return None
+
+    def build_executor_messages(self, input_text, mentor_ideas, history):
+        return [
+            {"role": "system", "content": "You are a helpful assistant. Based on the input text from user, and key messages in your head about previous dialog, and evaluation of your answer from your mentor, you need to provide a response."},
+            {"role": "system", "content": "history theme, key words, key phrases and evaluation are: " + mentor_ideas},
+            {"role": "user", "content": input_text}
+        ]
+    
+    def build_mentor_messages(self, history):
+        prompt = "Please respond only in the Chinese language. Do not explain what you are doing. Do not self reference. You are an expert text analyst and mentor. Please summary the theme of the dialog and extract only the most relevant keywords and key phrases from a piece of text, and evaluate how good or bad the dialog is, is there anything need to be improved. Please showcase the results in 4 list: theme, keywords, key phrases, evaluation. Please analyze the following text: "
+        return [
+            {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model and make him works better."},
+            {"role": "user", "content": prompt + history}
+        ]
 
     def get_dictum(self, mentor_input: dict) -> dict:
         """Execute agent instance.
