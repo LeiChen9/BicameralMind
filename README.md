@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-01 13:30:17
+ * @LastEditTime: 2024-07-01 14:32:24
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -41,3 +41,51 @@ agent的属性：自己的名字，自己的角色。<br>
 manager需要管理的是agent的角色。名字不重要
 ~~agent自身的属性应该是role，obj。role是自身的核心属性，决定接下来的行为。<br>~~
 ~~manager 通过 name来识别和使用agent，所以name应该是manager要维护的。~~
+
+## File Structure
+in case gitignore hide some FS
+.
+├── README.md
+├── agents
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-38.pyc
+│   │   ├── agent.cpython-38.pyc
+│   │   ├── agent_enum.cpython-38.pyc
+│   │   ├── agent_manager.cpython-38.pyc
+│   │   └── agent_model.cpython-38.pyc
+│   ├── agent.py
+│   ├── agent_enum.py
+│   ├── agent_manager.py
+│   └── agent_model.py
+├── api.py
+├── config.toml
+├── custom_key.toml
+├── data_structures
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-38.pyc
+│   │   └── io_object.cpython-38.pyc
+│   └── io_object.py
+├── datasets
+│   └── pubmedqa
+│       ├── LICENSE
+│       ├── README.md
+│       ├── data
+│       │   ├── ori_pqal.json
+│       │   └── test_ground_truth.json
+│       ├── evaluation.py
+│       ├── get_human_performance.py
+│       └── preprocess
+│           └── split_dataset.py
+├── eval.py
+├── log_config.toml
+├── main.py
+├── medical_dialog.py
+└── utils
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-38.pyc
+    │   └── singleton.cpython-38.pyc
+    ├── singleton.py
+    └── tools.py
