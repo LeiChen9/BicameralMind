@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-01 14:32:24
+ * @LastEditTime: 2024-07-01 14:56:03
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -41,6 +41,11 @@ agent的属性：自己的名字，自己的角色。<br>
 manager需要管理的是agent的角色。名字不重要
 ~~agent自身的属性应该是role，obj。role是自身的核心属性，决定接下来的行为。<br>~~
 ~~manager 通过 name来识别和使用agent，所以name应该是manager要维护的。~~
+
+## Eval
+注意所有eval数据集都在datasets里面。文件结构见下一节。
+### PubMedQA
+git:git@github.com:pubmedqa/pubmedqa.git
 
 ## File Structure
 in case gitignore hide some FS
