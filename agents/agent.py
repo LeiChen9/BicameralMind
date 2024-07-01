@@ -2,8 +2,9 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 15:55:05
-FilePath: /Code/BicameralMind/agents/agent.py
+LastEditTime: 2024-07-01 10:09:10
+FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent.py
+=======
 Description: 
 
 Copyright (c) 2024 by Riceball, All Rights Reserved. 
