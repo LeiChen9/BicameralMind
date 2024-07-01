@@ -1,3 +1,13 @@
+<!--
+ * @Author: LeiChen9 chenlei9691@gmail.com
+ * @Date: 2024-07-01 10:08:41
+ * @LastEditors: LeiChen9 chenlei9691@gmail.com
+ * @LastEditTime: 2024-07-01 13:30:17
+ * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
+ * @Description: 
+ * 
+ * Copyright (c) 2024 by Riceball, All Rights Reserved. 
+-->
 # BicameralMind
 
 一个多agent协同系统
@@ -7,6 +17,8 @@
 - 增加单元测试，在每个function实现后增加测试功能
 - 增加数据集做测试
 - 调整prompt
+
+
 ### 6.30
 - 重构manager代码
 - 增加多轮反思功能
