@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-01 14:56:03
+ * @LastEditTime: 2024-07-01 15:18:42
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -94,3 +94,6 @@ in case gitignore hide some FS
     │   └── singleton.cpython-38.pyc
     ├── singleton.py
     └── tools.py
+
+## Reference Work
+- Nori, H., Lee, Y. T., Zhang, S., Carignan, D., Edgar, R., Fusi, N., King, N., Larson, J., Li, Y., Liu, W., Luo, R., McKinney, S. M., Ness, R. O., Poon, H., Qin, T., Usuyama, N., White, C., & Horvitz, E. (2023). Can Generalist Foundation Models Outcompete Special-Purpose Tuning? Case Study in Medicine. *arXiv eprint: 2311.16452*.
