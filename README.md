@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-01 15:18:42
+ * @LastEditTime: 2024-07-01 17:26:36
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -17,7 +17,6 @@
 - 增加单元测试，在每个function实现后增加测试功能
 - 增加数据集做测试
 - 调整prompt
-
 
 ### 6.30
 - 重构manager代码
