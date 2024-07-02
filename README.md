@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-01 17:26:36
+ * @LastEditTime: 2024-07-02 15:22:36
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -44,7 +44,10 @@ manager需要管理的是agent的角色。名字不重要
 ## Eval
 注意所有eval数据集都在datasets里面。文件结构见下一节。
 ### PubMedQA
-git:git@github.com:pubmedqa/pubmedqa.git
+#### Git
+git@github.com:pubmedqa/pubmedqa.git
+#### Thoughts
+pubmedqa是可以分为train/dev/test的。如果只用test感觉有点亏。但是可以先试一下链路
 
 ## File Structure
 in case gitignore hide some FS
