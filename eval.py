@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-07-01 13:33:16
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-07-02 15:29:09
+LastEditTime: 2024-07-03 15:18:02
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/eval.py
 Description: 
 
@@ -18,7 +18,7 @@ manager: AgentManager = AgentManager(config_path='./config.toml')
 
 # PubMedQA data load
 with open("datasets/pubmedqa/data/test_set.json", 'r') as f:
-    pubmedsq_test_data = json.load(f)
+    pubmedqa_test_data = json.load(f)
 
 # Define a function to prepare input text for the agent
 def prepare_input_text(entry):
@@ -33,9 +33,9 @@ def prepare_input_text(entry):
 
 # Generate predictions
 predictions = {}
-for entry in pubmedsq_test_data:
-    pmid = entry["PMID"]
-    input_text = prepare_input_text(entry)
+for key, values in pubmedqa_test_data.items():
+    pmid = key
+    input_text = prepare_input_text(values)
     output = manager.run(input_text=input_text)
     predictions[pmid] = output
 

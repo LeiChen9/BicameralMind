@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-07-01 10:09:10
+LastEditTime: 2024-07-03 15:10:17
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent.py
 =======
 Description: 
