@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-01 14:56:03
+ * @LastEditTime: 2024-07-02 15:22:36
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -17,7 +17,6 @@
 - 增加单元测试，在每个function实现后增加测试功能
 - 增加数据集做测试
 - 调整prompt
-
 
 ### 6.30
 - 重构manager代码
@@ -45,7 +44,10 @@ manager需要管理的是agent的角色。名字不重要
 ## Eval
 注意所有eval数据集都在datasets里面。文件结构见下一节。
 ### PubMedQA
-git:git@github.com:pubmedqa/pubmedqa.git
+#### Git
+git@github.com:pubmedqa/pubmedqa.git
+#### Thoughts
+pubmedqa是可以分为train/dev/test的。如果只用test感觉有点亏。但是可以先试一下链路
 
 ## File Structure
 in case gitignore hide some FS
@@ -94,3 +96,6 @@ in case gitignore hide some FS
     │   └── singleton.cpython-38.pyc
     ├── singleton.py
     └── tools.py
+
+## Reference Work
+- Nori, H., Lee, Y. T., Zhang, S., Carignan, D., Edgar, R., Fusi, N., King, N., Larson, J., Li, Y., Liu, W., Luo, R., McKinney, S. M., Ness, R. O., Poon, H., Qin, T., Usuyama, N., White, C., & Horvitz, E. (2023). Can Generalist Foundation Models Outcompete Special-Purpose Tuning? Case Study in Medicine. *arXiv eprint: 2311.16452*.
