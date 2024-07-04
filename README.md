@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-02 15:22:36
+ * @LastEditTime: 2024-07-03 17:21:53
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -15,9 +15,9 @@
 ## Work
 ### TODO
 - 增加单元测试，在每个function实现后增加测试功能
-- 增加数据集做测试
-- 调整prompt
 
+### 7.3
+- 调试了PubMedQA做测试
 ### 6.30
 - 重构manager代码
 - 增加多轮反思功能

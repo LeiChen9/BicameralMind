@@ -2,8 +2,8 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-06-30 17:15:30
-FilePath: /Code/BicameralMind/agents/agent_manager.py
+LastEditTime: 2024-07-03 16:23:00
+FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
 Description: 
 
 Copyright (c) 2024 by Riceball, All Rights Reserved. 
@@ -101,6 +101,11 @@ class AgentManager(object):
             # # 准备下一轮的input_text
             # input_text = mentor_response
 
+        input_text = "Conclude below messages as \"yes\", \"no\" or \"maybe\", you can only answer one of these three words.\n"\
+                    + executor_response
+        
+        executor_response = self.executor.run(input_text=input_text, mentor_dictum="")
+        logger.info(f"Final Answer: {executor_response}")
         return executor_response
 
     def is_answer_sufficient(self, current_response, previous_response):

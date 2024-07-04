@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-07-01 10:09:10
+LastEditTime: 2024-07-03 16:20:57
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent.py
 =======
 Description: 
@@ -97,13 +97,13 @@ class Agent(BaseModel):
 
     def build_executor_messages(self, input_text, mentor_dictum):
         return [
-            {"role": "system", "content": "You are a helpful assistant. Based on the input text from user, and key messages in your head about previous dialog, and evaluation of your answer from your mentor, you need to provide a response.\
+            {"role": "system", "content": "You are a helpful assistant. Answer the user's question base on your knowledge. If you are not sure with the answer, response \"maybe\", don't make up anything. Based on the input text from user, and key messages in your head about previous dialog, and evaluation of your answer from your mentor, you need to provide a response.\
                                     history theme, key words, key phrases and evaluation are: " + mentor_dictum},
             {"role": "user", "content": "(Mentor whisper: " + mentor_dictum + ") " + input_text}
         ]
     
     def build_mentor_messages(self, history):
-        prompt = "Please respond only in the Chinese language. Do not explain what you are doing. Do not self reference. You are an expert text analyst and mentor. Please summary the theme of the dialog and extract only the most relevant keywords and key phrases from a piece of text, and evaluate how good or bad the dialog is, is there anything need to be improved. Please showcase the results in 4 list: theme, keywords, key phrases, evaluation. Please analyze the following text: "
+        prompt = "Do not explain what you are doing. Do not self reference. You are an expert text analyst and mentor. Please summary the theme of the dialog and extract only the most relevant keywords and key phrases from a piece of text, and evaluate how good or bad the dialog is, is there anything need to be improved. Please showcase the results in 4 list: theme, keywords, key phrases, evaluation. Please analyze the following text: "
         return [
             {"role": "system", "content": "You are a mentor of executive model. Your job is extracting, organizing, analyzing and summarizing the history information, and distill important information for executive model and make him works better."},
             {"role": "user", "content": prompt + history}
