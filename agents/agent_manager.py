@@ -2,7 +2,7 @@
 Author: LeiChen9 chenlei9691@gmail.com
 Date: 2024-06-28 11:26:15
 LastEditors: LeiChen9 chenlei9691@gmail.com
-LastEditTime: 2024-07-03 16:23:00
+LastEditTime: 2024-07-04 16:56:42
 FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/agents/agent_manager.py
 Description: 
 
@@ -14,7 +14,9 @@ from utils.singleton import singleton
 from utils.tools import config_parse, calculate_cosine_similarity
 from .agent import Agent
 from .agent_enum import AgentEnum
-import logging.config
+from data_structures.io_object import ChatSession
+from typing import Dict, Union
+from uuid import UUID
 import logging
 from loguru import logger
 import os
@@ -23,10 +25,12 @@ import pdb
 @singleton
 class AgentManager(object):
     """The AgentManager class, which is used to manage the agents."""
+    _agent_obj_map: dict[str, Agent]
+    sessions: Dict[Union[str, UUID], ChatSession] = {}
 
     def __init__(self, config_path):
         """Initialize the Agent manager.""" 
-        self._agent_obj_map: dict[str, Agent] = {}
+        self._agent_obj_map = {}
         self.initialize(config_path=config_path)
         self.previous_executor_response = ""
         self.sim_threshold = 0.8
