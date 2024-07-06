@@ -56,6 +56,18 @@ with open('datasets/pubmedqa/data/test_ground_truth.json', 'r') as f:
 # Evaluate predictions
 assert set(ground_truth.keys()) <= set(predictions.keys()), 'All instances in the test set must have been predicted.'
 
+# Regularation
+for key, value in predictions:
+    if "maybe" in value:
+        predictions[key] = "maybe"
+    elif "Yes" in value or "yes" in value:
+        predictions[key] = "yes"
+    else:
+        predictions[key] = "no"
+    
+with open('predictions.json', 'w') as f:
+    json.dump(predictions, f, indent=4)
+
 pmids = list(ground_truth.keys())
 truth = [ground_truth[pmid] for pmid in pmids]
 preds = [predictions.get(pmid) for pmid in pmids]
