@@ -57,7 +57,7 @@ with open('datasets/pubmedqa/data/test_ground_truth.json', 'r') as f:
 assert set(ground_truth.keys()) <= set(predictions.keys()), 'All instances in the test set must have been predicted.'
 
 # Regularation
-for key, value in predictions:
+for key, value in predictions.items():
     if "maybe" in value:
         predictions[key] = "maybe"
     elif "Yes" in value or "yes" in value:
