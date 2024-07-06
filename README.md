@@ -16,6 +16,8 @@
 ### TODO
 - 增加单元测试，在每个function实现后增加测试功能
 
+### 7.6
+- 完成pubmedqa的prediction。但是需要对结果做后处理。不是所有的都符合result规范。
 ### 7.3
 - 调试了PubMedQA做测试
 ### 6.30
