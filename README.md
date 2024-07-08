@@ -2,7 +2,7 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-03 17:21:53
+ * @LastEditTime: 2024-07-08 17:41:35
  * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
  * @Description: 
  * 
@@ -16,6 +16,8 @@
 ### TODO
 - 增加单元测试，在每个function实现后增加测试功能
 
+### 7.8
+- PubMedQA acc不及预期，analyzing
 ### 7.3
 - 调试了PubMedQA做测试
 ### 6.30
