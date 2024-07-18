@@ -15,7 +15,8 @@
 ## Work
 ### TODO
 - 增加单元测试，在每个function实现后增加测试功能
-
+### 7.18
+hello from pc
 ### 7.8
 - PubMedQA acc不及预期，analyzing
 ### 7.3
