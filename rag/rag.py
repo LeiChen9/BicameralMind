@@ -9,24 +9,31 @@ from langchain_community.vectorstores import Chroma
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-# 创建PyMuPDFLoader对象，加载PDF文件
-loader = PyMuPDFLoader("../data/Symbolic.pdf")
-# 加载PDF文件中的数据
-PDF_data = loader.load()
+def rag_build(input_file):
+    if input_file.endswith('.pdf'):
+        # 创建PyMuPDFLoader对象，加载PDF文件
+        loader = PyMuPDFLoader("../data/Symbolic.pdf")
+        # 加载PDF文件中的数据
+        PDF_data = loader.load()
 
-# 创建RecursiveCharacterTextSplitter对象，将文本分割成指定大小的块
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=5)
-# 将PDF数据分割成块
-all_splits = text_splitter.split_documents(PDF_data)
+    # 创建RecursiveCharacterTextSplitter对象，将文本分割成指定大小的块
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=5)
+    # 将PDF数据分割成块
+    all_splits = text_splitter.split_documents(PDF_data)
 
-# 定义模型名称和参数
-model_name = "sentence-transformers/all-MiniLM-L6-v2"
-model_kwargs = {'device': 'cpu'}
-# 创建HuggingFaceEmbeddings对象，将文本转换为向量
-embedding = HuggingFaceEmbeddings(model_name=model_name,
-                                  model_kwargs=model_kwargs)
+    # 定义模型名称和参数
+    model_name = "sentence-transformers/all-MiniLM-L6-v2"
+    model_kwargs = {'device': 'cpu'}
+    # 创建HuggingFaceEmbeddings对象，将文本转换为向量
+    embedding = HuggingFaceEmbeddings(model_name=model_name,
+                                    model_kwargs=model_kwargs)
 
-# 定义持久化目录
-persist_directory = 'db'
-# 创建Chroma对象，将向量存储到数据库中
-vectordb = Chroma.from_documents(documents=all_splits, embedding=embedding, persist_directory=persist_directory)
+    # 定义持久化目录
+    persist_directory = 'db'
+    # 创建Chroma对象，将向量存储到数据库中
+    vectordb = Chroma.from_documents(documents=all_splits, embedding=embedding, persist_directory=persist_directory)
+    
+    return vectordb 
+
+if __name__ == '__main__':
+    rag_build('Symbolic.pdf')
