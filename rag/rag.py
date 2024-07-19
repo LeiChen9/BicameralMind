@@ -7,7 +7,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 # 导入Chroma类，用于将向量存储到数据库中
 from langchain_community.vectorstores import Chroma
 from langchain.chains.retrieval_qa.base import RetrievalQA
-from langchain.chat_models import ChatOpenAI
+from langchain.llms import HuggingFaceHub
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -41,9 +41,13 @@ if __name__ == '__main__':
     db = rag_build('Symbolic.pdf')
     retriever = db.as_retriever()
     
+    llm = HuggingFaceHub(repo_id="google/flan-t5-small", model_kwargs={"temperature":0.1})
+    
     qa = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff", 
         retriever=retriever,
         verbose=True
     )
+    
+    print(llm)
