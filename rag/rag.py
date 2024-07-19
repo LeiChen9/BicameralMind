@@ -6,6 +6,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 # 导入Chroma类，用于将向量存储到数据库中
 from langchain_community.vectorstores import Chroma
+from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain.chat_models import ChatOpenAI
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -36,4 +38,12 @@ def rag_build(input_file):
     return vectordb 
 
 if __name__ == '__main__':
-    rag_build('Symbolic.pdf')
+    db = rag_build('Symbolic.pdf')
+    retriever = db.as_retriever()
+    
+    qa = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff", 
+        retriever=retriever,
+        verbose=True
+    )
