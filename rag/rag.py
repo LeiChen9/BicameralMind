@@ -1,11 +1,13 @@
 # 导入PyMuPDFLoader类，用于加载PDF文件
-from langchain.document_loaders import PyMuPDFLoader
+from langchain_community.document_loaders import PyMuPDFLoader
 # 导入RecursiveCharacterTextSplitter类，用于将文本分割成指定大小的块
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # 导入HuggingFaceEmbeddings类，用于将文本转换为向量
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 # 导入Chroma类，用于将向量存储到数据库中
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # 创建PyMuPDFLoader对象，加载PDF文件
 loader = PyMuPDFLoader("../data/Symbolic.pdf")
