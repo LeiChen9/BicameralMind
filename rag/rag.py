@@ -8,7 +8,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains.retrieval_qa.base import RetrievalQA
 # from langchain_openai import ChatOpenAI
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 import getpass
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -44,7 +44,8 @@ if __name__ == '__main__':
     retriever = db.as_retriever()
     
     os.environ["OPENAI_API_KEY"] = getpass.getpass()
-    llm = ChatOpenAI(openai_api_base='http://127.0.0.1:8080/v1')
+    openai_key = os.environ["OPENAI_API_KEY"]
+    llm = ChatOpenAI(openai_api_key=openai_key, openai_api_base='http://127.0.0.1:8080/v1')
     
     qa = RetrievalQA.from_chain_type(
         llm=llm,
@@ -53,4 +54,5 @@ if __name__ == '__main__':
         verbose=True
     )
     
-    print(qa)
+    query = "Tell me about RICHES"
+    qa.invoke(query)
