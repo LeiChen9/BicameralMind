@@ -2,8 +2,8 @@
  * @Author: LeiChen9 chenlei9691@gmail.com
  * @Date: 2024-07-01 10:08:41
  * @LastEditors: LeiChen9 chenlei9691@gmail.com
- * @LastEditTime: 2024-07-08 17:41:35
- * @FilePath: /SpeechDepDiag/Users/lei/Documents/Code/BicameralMind/README.md
+ * @LastEditTime: 2024-07-21 23:14:29
+ * @FilePath: /Code/BicameralMind/README.md
  * @Description: 
  * 
  * Copyright (c) 2024 by Riceball, All Rights Reserved. 
@@ -119,7 +119,8 @@ in case gitignore hide some FS
 ## Work
 ### TODO
 - 增加单元测试，在每个function实现后增加测试功能
-
+### 7.21
+- Wrote down my anxiety
 ### 7.6
 - 完成pubmedqa的prediction。但是需要对结果做后处理。不是所有的都符合result规范。
 ### 7.3

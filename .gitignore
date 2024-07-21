@@ -165,3 +165,4 @@ data/
 db/
 # VS Code
 .vscode/
+custom_key.toml
