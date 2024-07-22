@@ -1,5 +1,6 @@
 # 导入PyMuPDFLoader类，用于加载PDF文件
 from langchain_community.document_loaders import PyMuPDFLoader
+from langchain_community.document_loaders import JSONLoader
 # 导入RecursiveCharacterTextSplitter类，用于将文本分割成指定大小的块
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # 导入HuggingFaceEmbeddings类，用于将文本转换为向量
@@ -13,7 +14,7 @@ import getpass
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-def rag_build(input_file):
+def pdf_rag_build(input_file):
     if input_file.endswith('.pdf'):
         # 创建PyMuPDFLoader对象，加载PDF文件
         loader = PyMuPDFLoader("../data/Symbolic.pdf")
@@ -39,20 +40,41 @@ def rag_build(input_file):
     
     return vectordb 
 
+def metadata_func(record: dict, metadata: dict) -> dict:
+    metadata["id"] = list(record.keys())[0]
+    metadata["question"] = record[metadata["id"]].get("QUESTION")
+    metadata["labels"] = record[metadata["id"]].get("LABELS")
+    metadata["long_answer"] = record[metadata["id"]].get("LONG_ANSWER")
+    metadata["meshes"] = record[metadata["id"]].get("MESHES")
+    metadata["final_decision"] = record[metadata["id"]].get("final_decision")
+    return metadata
+
 if __name__ == '__main__':
-    db = rag_build('Symbolic.pdf')
-    retriever = db.as_retriever()
+    # db = rag_build('Symbolic.pdf')
+    # retriever = db.as_retriever()
     
-    os.environ["OPENAI_API_KEY"] = getpass.getpass()
-    openai_key = os.environ["OPENAI_API_KEY"]
-    llm = ChatOpenAI(openai_api_key=openai_key, openai_api_base='http://127.0.0.1:8080/v1')
+    # os.environ["OPENAI_API_KEY"] = getpass.getpass()
+    # openai_key = os.environ["OPENAI_API_KEY"]
+    # llm = ChatOpenAI(openai_api_key=openai_key, openai_api_base='http://127.0.0.1:8080/v1')
     
-    qa = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff", 
-        retriever=retriever,
-        verbose=True
+    # qa = RetrievalQA.from_chain_type(
+    #     llm=llm,
+    #     chain_type="stuff", 
+    #     retriever=retriever,
+    #     verbose=True
+    # )
+    
+    # query = "Tell me about RICHES"
+    # qa.invoke(query)
+    embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+    # 注意这里的文件路径需要替换为您实际的文件路径
+    loader = JSONLoader(
+        file_path="../datasets/pubmedqa/data/pqaa_train_set.json",
+        jq_schema='.[]',
+        content_key="CONTEXTS",
+        metadata_func=metadata_func,
     )
+    documents = loader.load()
     
-    query = "Tell me about RICHES"
-    qa.invoke(query)
+    vectorstore = Chroma.from_documents(documents, embedding_function)
