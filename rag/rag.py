@@ -43,9 +43,8 @@ def pdf_rag_build(input_file):
 
 def metadata_func(record: dict, metadata: dict) -> dict:
     # metadata["id"] = record["id"]
-    # pdb.set_trace()
     metadata["question"] = record["QUESTION"]
-    metadata["labels"] = record["LABELS"]
+    metadata["labels"] = ",".join(record["LABELS"])
     metadata["long_answer"] = record["LONG_ANSWER"]
     metadata["meshes"] = record["MESHES"]
     metadata["final_decision"] = record.get("final_decision", "Unknown")
