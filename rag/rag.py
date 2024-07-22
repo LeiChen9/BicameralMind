@@ -12,6 +12,7 @@ from langchain.chains.retrieval_qa.base import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
 import getpass
 import os
+import pdb
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def pdf_rag_build(input_file):
@@ -41,12 +42,15 @@ def pdf_rag_build(input_file):
     return vectordb 
 
 def metadata_func(record: dict, metadata: dict) -> dict:
-    metadata["id"] = list(record.keys())[0]
-    metadata["question"] = record[metadata["id"]].get("QUESTION")
-    metadata["labels"] = record[metadata["id"]].get("LABELS")
-    metadata["long_answer"] = record[metadata["id"]].get("LONG_ANSWER")
-    metadata["meshes"] = record[metadata["id"]].get("MESHES")
-    metadata["final_decision"] = record[metadata["id"]].get("final_decision")
+    # metadata["id"] = record["id"]
+    # pdb.set_trace()
+    metadata["question"] = record["QUESTION"]
+    metadata["labels"] = record["LABELS"]
+    metadata["long_answer"] = record["LONG_ANSWER"]
+    metadata["meshes"] = record["MESHES"]
+    metadata["final_decision"] = record.get("final_decision", "Unknown")
+    # 由于"CONTEXTS"是我们要向量化的文本，我们将其作为列表传递
+    metadata["page_content"] = " ".join(record["CONTEXTS"])
     return metadata
 
 if __name__ == '__main__':
@@ -59,6 +63,7 @@ if __name__ == '__main__':
         jq_schema='.[]',
         content_key="CONTEXTS",
         metadata_func=metadata_func,
+        text_content=False,
     )
     documents = loader.load()
     
