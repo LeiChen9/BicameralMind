@@ -46,7 +46,7 @@ def metadata_func(record: dict, metadata: dict) -> dict:
     metadata["question"] = record["QUESTION"]
     metadata["labels"] = ",".join(record["LABELS"])
     metadata["long_answer"] = record["LONG_ANSWER"]
-    metadata["meshes"] = record["MESHES"]
+    metadata["meshes"] = ",".record["MESHES"]
     metadata["final_decision"] = record.get("final_decision", "Unknown")
     # 由于"CONTEXTS"是我们要向量化的文本，我们将其作为列表传递
     metadata["page_content"] = " ".join(record["CONTEXTS"])
