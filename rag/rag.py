@@ -51,21 +51,6 @@ def metadata_func(record: dict, metadata: dict) -> dict:
 
 if __name__ == '__main__':
     # db = rag_build('Symbolic.pdf')
-    # retriever = db.as_retriever()
-    
-    # os.environ["OPENAI_API_KEY"] = getpass.getpass()
-    # openai_key = os.environ["OPENAI_API_KEY"]
-    # llm = ChatOpenAI(openai_api_key=openai_key, openai_api_base='http://127.0.0.1:8080/v1')
-    
-    # qa = RetrievalQA.from_chain_type(
-    #     llm=llm,
-    #     chain_type="stuff", 
-    #     retriever=retriever,
-    #     verbose=True
-    # )
-    
-    # query = "Tell me about RICHES"
-    # qa.invoke(query)
     embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
     # 注意这里的文件路径需要替换为您实际的文件路径
@@ -78,3 +63,19 @@ if __name__ == '__main__':
     documents = loader.load()
     
     vectorstore = Chroma.from_documents(documents, embedding_function)
+    
+    retriever = vectorstore.as_retriever()
+    
+    os.environ["OPENAI_API_KEY"] = getpass.getpass()
+    openai_key = os.environ["OPENAI_API_KEY"]
+    llm = ChatOpenAI(openai_api_key=openai_key, openai_api_base='http://127.0.0.1:8080/v1')
+    
+    qa = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff", 
+        retriever=retriever,
+        verbose=True
+    )
+    
+    query = "Tell me about Gly-P1"
+    qa.invoke(query)
