@@ -72,8 +72,10 @@ if __name__ == '__main__':
     )
     documents = loader.load()
     
-    batch_size = 500
-    split_docs = [documents[i:i + batch_size] for i in range(0, len(documents), batch_size)]
+    
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=5)
+    # 将PDF数据分割成块
+    split_docs = text_splitter.split_documents(documents)
     
     split_docs_chunked = split_list(split_docs, 41000)
     
