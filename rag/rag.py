@@ -15,6 +15,8 @@ import os
 import pdb
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+MAX_BATCH_SIZE = 41666
+
 def pdf_rag_build(input_file):
     if input_file.endswith('.pdf'):
         # 创建PyMuPDFLoader对象，加载PDF文件
@@ -46,7 +48,7 @@ def metadata_func(record: dict, metadata: dict) -> dict:
     metadata["question"] = record["QUESTION"]
     metadata["labels"] = ",".join(record["LABELS"])
     metadata["long_answer"] = record["LONG_ANSWER"]
-    metadata["meshes"] = ",".record["MESHES"]
+    metadata["meshes"] = ",".join(record["MESHES"])
     metadata["final_decision"] = record.get("final_decision", "Unknown")
     # 由于"CONTEXTS"是我们要向量化的文本，我们将其作为列表传递
     metadata["page_content"] = " ".join(record["CONTEXTS"])
@@ -65,6 +67,9 @@ if __name__ == '__main__':
         text_content=False,
     )
     documents = loader.load()
+    
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=5)
+    documents =  text_splitter.split_documents(documents=documents)
     
     vectorstore = Chroma.from_documents(documents, embedding_function)
     
