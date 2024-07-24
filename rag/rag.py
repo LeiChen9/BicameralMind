@@ -54,6 +54,10 @@ def metadata_func(record: dict, metadata: dict) -> dict:
     metadata["page_content"] = " ".join(record["CONTEXTS"])
     return metadata
 
+def split_list(input_list, chunk_size):
+    for i in range(0, len(input_list), chunk_size):
+        yield input_list[i:i + chunk_size]
+
 if __name__ == '__main__':
     # db = rag_build('Symbolic.pdf')
     embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -68,10 +72,23 @@ if __name__ == '__main__':
     )
     documents = loader.load()
     
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=5)
-    documents =  text_splitter.split_documents(documents=documents)
+    batch_size = 500
+    split_docs = [documents[i:i + batch_size] for i in range(0, len(documents), batch_size)]
     
-    vectorstore = Chroma.from_documents(documents, embedding_function)
+    split_docs_chunked = split_list(split_docs, 41000)
+    
+    for split_docs_chunk in split_docs_chunked:
+        vectorstore = Chroma.from_documents(
+            documents=split_docs_chunk,
+            embedding=embedding_function,
+            persist_directory='./db',
+        )
+        vectorstore.persist()
+    
+    # text_splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=5)
+    # documents =  text_splitter.split_documents(documents=documents)
+    
+    # vectorstore = Chroma.from_documents(documents, embedding_function)
     
     retriever = vectorstore.as_retriever()
     
