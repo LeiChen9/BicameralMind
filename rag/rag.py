@@ -107,3 +107,4 @@ if __name__ == '__main__':
     
     query = "Tell me about Gly-P1"
     qa.invoke(query)
+    print(qa.get_answers(query))
